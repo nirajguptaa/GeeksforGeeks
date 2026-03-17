@@ -8,11 +8,11 @@ class Solution {
         vector<int>vis(n,0);
         int start=0;
         q.push(start);
-        vis[start] = 1;
+        vis[start]=1;
         while(!q.empty()){
             int node=q.front();
-            Ans.push_back(node);
             q.pop();
+            Ans.push_back(node);
             for(auto it:adj[node]){
                 if(!vis[it]){
                     q.push(it);
@@ -23,3 +23,4 @@ class Solution {
         return Ans;
     }
 };
+        
