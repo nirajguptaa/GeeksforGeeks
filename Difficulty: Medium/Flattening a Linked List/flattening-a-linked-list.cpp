@@ -7,47 +7,41 @@ public:
 
     Node(int x) {
         data = x;
-        next = NULL;
-        bottom = NULL;
+        next = nullptr;
+        bottom = nullptr;
     }
-};
-*/
-
+}; */
 
 class Solution {
-    Node *merge(Node *list1,Node *list2){
-        Node *dummy=new Node(-1);
-        Node *res=dummy;
-        while(list1 && list2){
-            if(list1->data<list2->data){
-                res->bottom=list1;
-                list1=list1->bottom;
+  public:
+    Node *merge(Node *l1 ,Node *l2){
+        Node *dummy=new Node(NULL);
+        Node *temp=dummy;
+        while(l1 && l2){
+            if(l1->data<l2->data){
+                temp->bottom=l1;
+                l1=l1->bottom;
             }else{
-                res->bottom=list2;
-                list2=list2->bottom;
+                temp->bottom=l2;
+                l2=l2->bottom;
             }
-            res=res->bottom;
-                
+            temp=temp->bottom;
         }
-        if(list1){
-            res->bottom=list1;
-            
+        if(l1){
+            temp->bottom=l1;
         }
-        else{
-            res->bottom=list2;
-            
+        if(l2){
+            temp->bottom=l2;
         }
         return dummy->bottom;
     }
-  public:
     Node *flatten(Node *root) {
+        // code here
         if(root==NULL || root->next==NULL){
             return root;
         }
-        
         Node *merged=flatten(root->next);
         root=merge(root,merged);
         return root;
-        
     }
 };
