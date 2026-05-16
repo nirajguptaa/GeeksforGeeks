@@ -2,32 +2,28 @@ class Solution {
   public:
     int kthElement(vector<int> &a, vector<int> &b, int k) {
         // code here
-        int i=0,j=0;
-        int n=a.size(),m=b.size();
-        int count=0;
-        int ans=-1;
-        while(i<n && j<m && count<k){
-            
-            if(a[i]<=b[j]){
-                ans=a[i];
-                i++;
+        int n1=a.size(),n2=b.size();
+        if(n1>n2){
+            return kthElement(b,a,k);
+        }
+        int l=max(0,k-n2);
+        int h=min(n1,k);
+        while(l<=h){
+            int cut1=l+(h-l)/2;
+            int cut2=k-cut1;
+            int left1=cut1==0?INT_MIN:a[cut1-1];
+            int left2=cut2==0?INT_MIN:b[cut2-1];
+            int right1=cut1==n1?INT_MAX:a[cut1];
+            int right2=cut2==n2?INT_MAX:b[cut2];
+            if(left1<=right2 && left2<=right1){
+                return max(left1,left2);
+            }else if(left1>right2){
+                h=cut1-1;
             }else{
-                ans=b[j];
-                j++;
+                l=cut1+1;
             }
-            count++;
         }
-        while(i<n && count<k){
-            ans=a[i];
-            count++;
-            i++;
-        }
-        while(j<m && count<k){
-            ans=b[j];
-            count++;
-            j++;
-        }
+        return 0;
         
-        return ans;
     }
 };
