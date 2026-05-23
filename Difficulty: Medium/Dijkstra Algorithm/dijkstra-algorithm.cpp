@@ -1,36 +1,30 @@
 class Solution {
   public:
-  
     vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
         // Code here
-        vector<pair<int,int>>adj[V];
-        for(auto edge:edges){
-            int u=edge[0];
-            int v=edge[1];
-            int wt=edge[2];
-            adj[u].push_back({v,wt});
-            adj[v].push_back({u,wt});
+        //shortest distance form sorce to every node
+        vector<vector<pair<int,int>>> adj(V);
+        for(auto &e:edges){
+            int u=e[0],v=e[1],w=e[2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
         }
-        vector<int>parent(V,0);
-        vector<int>path(V,1e9);
+        vector<int>path(V,INT_MAX);
         path[src]=0;
-        for(int i=0;i<V;i++){
-            parent[i]=i;
-        }
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        pq.push({0,src});//dist src
+        pq.push({0,src});
         while(!pq.empty()){
-            int currDist=pq.top().first;
-            int node=pq.top().second;
+            auto node=pq.top();
+            int dist=node.first;
+            int start=node.second;
             pq.pop();
-            if(currDist>path[node])continue;
-            for(auto it:adj[node]){
-                int adjNode=it.first;
-                int adjDist=it.second;
-                if(currDist+adjDist<path[adjNode]){
-                    path[adjNode]=currDist+adjDist;
-                    pq.push({adjDist+currDist,adjNode});
-                    parent[adjNode]=node;
+            if(dist>path[start])continue;
+            for(auto neigh:adj[start]){
+                int adjNode=neigh.first;
+                int adjWt=neigh.second;
+                if(dist+adjWt<path[adjNode]){
+                    path[adjNode]=dist+adjWt;
+                    pq.push({dist+adjWt,adjNode});
                 }
             }
         }
