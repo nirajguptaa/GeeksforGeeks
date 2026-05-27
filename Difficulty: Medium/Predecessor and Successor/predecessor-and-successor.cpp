@@ -15,41 +15,37 @@ class Node {
 
 class Solution {
   public:
-  Node *findPre(Node *root,int key){
-      
-      Node*pre=NULL;
-      while(root!=NULL){
-          if(root->data<key){
-            pre=root;
-            root=root->right;
-        }else{
-            root=root->left;
-        }
-      }
-      return pre;
-      
-  }
-  Node *findSucc(Node *root,int key){
-      Node *succ=NULL;
-      while(root!=NULL){
-          if(root->data>key){
-              succ=root;
-              root=root->left;
-          }else{
-              root=root->right;
-          }
-      }
-      return succ;
-          
-  }
     vector<Node*> findPreSuc(Node* root, int key) {
         // code here
-        vector<Node*>ans;
-        Node *pre=findPre(root,key);
-        Node *succ=findSucc(root,key);
-        ans.push_back(pre);
-        ans.push_back(succ);
-        return ans;
+        Node *pre=NULL;
+        Node *succ=NULL;
         
+        while(root){
+            if(root->data==key){
+                if(root->left){
+                    Node *curr=root->left;
+                    while(curr->right){
+                        curr=curr->right;
+                    }
+                    pre=curr;
+                }
+                if(root->right){
+                    Node *curr=root->right;
+                    while(curr->left){
+                        curr=curr->left;
+                    }
+                    succ=curr;
+                }
+                break;
+            }
+            else if(root->data<key){
+                pre=root;
+                root=root->right;
+            }else{
+                succ=root;
+                root=root->left;
+            }
+        }
+        return {pre,succ};
     }
 };
