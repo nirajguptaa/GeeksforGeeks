@@ -1,71 +1,69 @@
 struct Node{
     Node *links[26];
-    bool flag=false;
     bool containsKey(char ch){
         return links[ch-'a']!=NULL;
+    }
+    bool flag=false;
+    bool isEnd(){
+        return flag;
+    }
+    Node *get(char ch){
+        return links[ch-'a'];
     }
     void put(char ch,Node *node){
         links[ch-'a']=node;
     }
-    Node* get(char ch){
-        return links[ch-'a'];
-    }
-    bool isEnd(){
-        return flag;
-    }
     void setEnd(){
         flag=true;
     }
-        
 };
 class Solution {
   public:
   Node *root;
   Solution(){
-      root=new Node();
+      
+    root=new Node();
   }
-  void insert(string &word){
-      Node *node=root;
-      for(int i=0;i<word.size();i++){
-          if(!node->containsKey(word[i])){
-              node->put(word[i],new Node());
-          }
-          node=node->get(word[i]);
-      }
-      node->setEnd();
-  }
-  bool checkPrefix(string word){
-      Node *node=root;
-      for(int i=0;i<word.size()-1;i++){
-          if(node->containsKey(word[i])){
-              node=node->get(word[i]);
-          }
-          if(node->isEnd()==false){
-              return false;
-          }
-      }
-      return true;
-  }
+    void insert(string word){
+        Node *node=root;
+        for(char ch:word){
+            if(!node->containsKey(ch)){
+                node->put(ch,new Node());
+            }
+            node=node->get(ch);
+        }
+        node->setEnd();
+    }
+    bool checkPrefix(string word){
+        Node *node =root;
+        for(int i=0;i<word.size();i++){
+            if(node->containsKey(word[i])){
+                node=node->get(word[i]);
+                if(!node->isEnd()){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        return true;
+        
+    }
     string longestString(vector<string> &words) {
         // code here
-        if(words.empty())return "";
-        for(auto word:words){
-            if(word.empty()){
-                return "";
-            }
+        for(string word:words){
             insert(word);
         }
-        string longest="";
+        string ans="";
         for(string word:words){
             if(checkPrefix(word)){
-                if(word.length()>longest.length()){
-                    longest=word;
-                }else if(word.length()==longest.length() && word<longest){
-                    longest=word;
+                if(word.size()>ans.size()){
+                    ans=word;
+                }else if(word.size()==ans.size() && word<ans){
+                    ans=word;
                 }
             }
         }
-        return longest;
-        
+        return ans;
     }
 };
