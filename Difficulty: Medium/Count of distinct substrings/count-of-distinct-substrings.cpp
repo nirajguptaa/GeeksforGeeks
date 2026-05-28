@@ -1,23 +1,36 @@
 struct Node{
-    unordered_map<char,Node *>links;
+    Node *links[26];
+    bool containsKey(char ch){
+        return links[ch-'a']!=NULL;
+    }
+    
+    Node *get(char ch){
+        return links[ch-'a'];
+    }
+    void put(char ch,Node *node){
+        links[ch-'a']=node;
+    }
+    
 };
 class Solution {
   public:
-    int countSubs(string& s) {
+  
+    int countSubs(string& word) {
         // code here
-        int count=0;
+        int cnt=0;
         Node *root=new Node();
-        for(int i=0;i<s.size();i++){
+        for(int i=0;i<word.size();i++){
             Node *node=root;
-            for(int j=i;j<s.size();j++){
-                char ch=s[j];
-                if(node->links.find(ch)==node->links.end()){
-                    node->links[ch]=new Node();
-                    count++;
+            for(int j=i;j<word.size();j++){
+                if(!node->containsKey(word[j])){
+                    cnt++;
+                    node->put(word[j],new Node());
                 }
-                node=node->links[ch];
+                node=node->get(word[j]);
             }
         }
-        return count;
+        return cnt;
+        //1 for empty substring
+        
     }
 };
