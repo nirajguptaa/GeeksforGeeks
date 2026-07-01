@@ -2,9 +2,9 @@ class Solution {
   public:
     void dfs(int node,vector<int>&vis,stack<int>&st,vector<int>adj[]){
         vis[node]=1;
-        for(auto it:adj[node]){
-            if(!vis[it]){
-                dfs(it,vis,st,adj);
+        for(auto neigh:adj[node]){
+            if(!vis[neigh]){
+                dfs(neigh,vis,st,adj);
             }
         }
         st.push(node);
@@ -24,15 +24,12 @@ class Solution {
                 dfs(i,vis,st,adj);
             }
         }
-        
-        vector<int>topoSortArr;
+        vector<int>topo;
         while(!st.empty()){
-            topoSortArr.push_back(st.top());
+            topo.push_back(st.top());
             st.pop();
         }
-        return topoSortArr;
-        
-        
+        return topo;
         
     }
 };
