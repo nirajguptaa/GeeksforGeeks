@@ -21,10 +21,12 @@ class Solution {
     int kosaraju(int V, vector<vector<int>> &edges) {
         // code here
         vector<int>adj[V];
+        vector<int>revAdj[V];
         for(auto it:edges){
             int u=it[0];
             int v=it[1];
             adj[u].push_back(v);
+            revAdj[v].push_back(u);
         }
         vector<int>vis(V);
         stack<int>st;
@@ -35,12 +37,9 @@ class Solution {
             }
         }
         // Step 2: Reverse graph
-        vector<int>revAdj[V];
         for(int i=0;i<V;i++){
             vis[i]=0;
-            for(auto it:adj[i]){
-                revAdj[it].push_back(i);
-            }
+            
         }
        int scc=0;
         // Step 3: Count SCCs
