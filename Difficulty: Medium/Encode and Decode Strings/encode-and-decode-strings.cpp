@@ -1,29 +1,32 @@
 class Solution {
   public:
-    string encode(vector<string>& s) {
-        // code here
-        string str="";
-        for(int i=0;i<s.size();i++){
-            str+=s[i];
-            if(i+1<s.size())str+=',';
+    string encode(vector<string>& arr) {
+        // write your logic to encode the strings
+        string total="";
+        int n=arr.size();
+        for(int i=0;i<n;i++){
+            total+=arr[i];
+            if(i+1!=n){
+                total+="#";
+            }
         }
-        return str;
+        return total;
     }
 
     vector<string> decode(string& s) {
-        
-        // code here
+        // write your logic to decode the string
         vector<string>ans;
-        string str="";
-        for(int i=0;i<s.size();i++){
-            if(s[i]==','){
-                ans.push_back(str);
-                str="";
-            }else{
-                str+=s[i];
+        int n=s.size();
+        string curr="";
+        for(int i=0;i<n;i++){
+            if(s[i]=='#'){
+                ans.push_back(curr);
+                curr="";
+                continue;
             }
+            curr+=s[i];
         }
-        ans.push_back(str);
+        ans.push_back(curr);
         return ans;
     }
 };
