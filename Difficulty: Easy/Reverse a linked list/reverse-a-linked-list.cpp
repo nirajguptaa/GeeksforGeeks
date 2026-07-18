@@ -15,11 +15,8 @@ class Solution {
   public:
     Node* reverseList(Node* node) {
         // code here
-        if(node==NULL || node->next==NULL){
-            return node;
-        }
-        Node *prev=NULL;
         Node *curr=node;
+        Node *prev=NULL;
         while(curr){
             Node *ahead=curr->next;
             curr->next=prev;
