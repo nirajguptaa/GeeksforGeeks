@@ -8,24 +8,22 @@ class Solution {
             jobs.push_back({deadline[i],profit[i]});
         }
         sort(jobs.begin(),jobs.end());
-        int count=0,totalprofit=0;
         priority_queue<int,vector<int>,greater<int>>pq;
         for(int i=0;i<n;i++){
             if(pq.size()<jobs[i].first){
                 pq.push(jobs[i].second);
-            }else{
-                if(!pq.empty() && pq.top()<jobs[i].second){
-                    pq.pop();
-                    pq.push(jobs[i].second);
-                }
-            }
+            }else if(!pq.empty() && pq.top()<jobs[i].second){
+                pq.pop();
+                pq.push(jobs[i].second);
+            } 
         }
-        count=pq.size();
+        int count=pq.size();
+        int profits=0;
         while(!pq.empty()){
-            totalprofit+=pq.top();
+            profits+=pq.top();
             pq.pop();
         }
-        return {count,totalprofit};
+        return {count,profits};
         
     }
 };
